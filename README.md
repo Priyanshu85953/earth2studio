@@ -38,6 +38,18 @@ Running AI weather prediction can be done with just a few lines of code.
 - Swap out [data sources][e2studio_data_api] or [models][e2studio_px_api] depending on
     your use case!
 
+### What you provide vs. what you get
+
+The main runner signature is `run(start_times, steps, model, data, io)`:
+- `start_times`: list of ISO8601 timestamps (e.g., `["2025-01-01T00:00:00"]`) used to seed forecasts.
+- `steps`: number of forecast steps to generate.
+- `model`: a prognostic model instance (e.g., `FCN3`, `AIFS`, `GraphCastOperational`) that produces future fields.
+- `data`: the data source that fetches initial conditions (e.g., `GFS`, `IFS`).
+- `io`: an output backend (e.g., `ZarrBackend("outputs/fcn3_forecast.zarr")`) that saves the forecast.
+
+The output is a self-describing Zarr store containing the generated forecast fields for
+each requested time step, ready to open with `xarray` or other Zarr-compatible tools.
+
 ### NVIDIA FourCastNet3
 
 ```python
